@@ -51,9 +51,7 @@ public class InMemoryTimeEntryRepositoryTest {
         InMemoryTimeEntryRepository repo = new InMemoryTimeEntryRepository();
         TimeEntry created = repo.create(new TimeEntry(123L, 456L, LocalDate.parse("2017-01-08"), 8));
 
-        TimeEntry updatedEntry = repo.update(
-                created.getId(),
-                new TimeEntry(321L, 654L, LocalDate.parse("2017-01-09"), 5));
+        TimeEntry updatedEntry = repo.update(created.getId(), new TimeEntry(321L, 654L, LocalDate.parse("2017-01-09"), 5));
 
         TimeEntry expected = new TimeEntry(created.getId(), 321L, 654L, LocalDate.parse("2017-01-09"), 5);
         assertThat(updatedEntry).isEqualTo(expected);
@@ -64,8 +62,17 @@ public class InMemoryTimeEntryRepositoryTest {
     public void delete() throws Exception {
         InMemoryTimeEntryRepository repo = new InMemoryTimeEntryRepository();
         TimeEntry created = repo.create(new TimeEntry(123L, 456L, LocalDate.parse("2017-01-08"), 8));
+        repo.create(new TimeEntry(123L, 456L, LocalDate.parse("2017-01-08"), 8));
+        repo.create(new TimeEntry(789L, 654L, LocalDate.parse("2017-01-07"), 4));
+
+        long id  = created.getId();
+        //System.out.println(repo.list().size() + " = before delete size");
 
         repo.delete(created.getId());
-        assertThat(repo.list()).isEmpty();
+        //System.out.println(repo.list().size() + " = size");
+
+        assertThat(false).isEqualTo(repo.contains(id));
+        //for deleteAll
+       // assertThat(repo.list()).isEmpty();
     }
 }

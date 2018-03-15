@@ -21,6 +21,7 @@ public class TimeEntryControllerTest {
     private TimeEntryRepository timeEntryRepository;
     private TimeEntryController controller;
 
+    //Execute before each test method.
     @Before
     public void setUp() throws Exception {
         timeEntryRepository = mock(TimeEntryRepository.class);
@@ -34,7 +35,6 @@ public class TimeEntryControllerTest {
         doReturn(expectedResult)
             .when(timeEntryRepository)
             .create(any(TimeEntry.class));
-
 
         ResponseEntity response = controller.create(timeEntryToCreate);
 
